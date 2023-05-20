@@ -1,5 +1,7 @@
 # Documentation.
 C'est une API pour application ILORIA.
+[1 . Artisan](##Récupérations-La-list-artisan)
+[1 . 1 . Recuperation tous les artisan](###Tous-les-artisans)
 
 ## Artisan
 Récupération, l'ajoute, connexion, déconnection et modification tous les artisans dan la base de donnée.
@@ -245,8 +247,8 @@ METHODE : POST
 | password   | mote de pass de l'artisan        |
 | categorie   | Type de l'arisan        |
 
-C'est paramètre en haut c'est obligatoire.
 
+C'est paramètre en haut c'est obligatoire.
 **En future il faut ajouté anti-robots (captcha)**
 *car cette application est prive mai pas public donc n'a pas obligé d'ajouter la security anti-robot*
 
@@ -254,6 +256,7 @@ C'est paramètre en haut c'est obligatoire.
 | ----------- | ----------- |	- |
 | photo      | La photo de profil de l'artisan       |user.png|
 | images   | Les images de l'artisan        |empty|
+
 
 C'est paramètre en haut c'est facultative .
 
@@ -352,6 +355,40 @@ remarque ce token c'est un sécurité il faut sauvegarde dan le téléphone util
 code request server : 200
 ```
 
+### Desconnexion artisan
+Il faut appelée URL avec méthode **POST**.
+
+```url
+https://vps356969.ovh.net/api/client/logout
+METHOD : POST
+```
+avec paramètres **Obligatoir** : 
+|Parametres      | Description |
+| ----------- | ----------- |
+| Authorization     | Token generé par le serveur |
+
+#### Retour de serveur
+
+Erreur de authentification (Vous avez oublié d'envoyé le token): 
+ ```json
+ {
+	"message":  "Unauthenticated"
+}
+ ```
+ ```code
+code request server : 401
+```
+
+Le client est bien déconnecte : 
+ ```json
+ {
+	"message":  "Vous etes bien deconnecte"
+}
+ ```
+ ```code
+code request server : 201
+```
+
 ### Modifié des donnée d'un artisan
 Pour la modification d'artisan il faut une sécurité *authentification*.
 
@@ -407,6 +444,34 @@ code request server : 401
 code request server : 201
 ```
 
+### Supprimer un artisan.
+Il faut appelée URL avec méthode **DELETE** avec paramètres
+```URL
+https://vps356969.ovh.net/api/artisan/delete
+METHOD : DELETE
+```
+
+#### retour de serveur
+Erreur de token : 
+```json
+{
+	"message":  "Unauthenticated"
+}
+```
+``` code
+code request server : 500
+```
+Le artisan est bien supprimer de la base de donnée 
+```json
+{
+	"id":  "1",
+	"message": "Artisan est bien supprimer"
+}
+```
+``` code
+code request server : 201
+```
+
 ## Client
 
 Récupération, l'ajoute, connexion, déconnection et modification tous les client dan la base de donnée.
@@ -414,7 +479,7 @@ Récupération, l'ajoute, connexion, déconnection et modification tous les clie
 ### récupération tous les client
 Il faut appelée URL avec méthode **GET** sans paramètre
 ``` url
-https://vps356969.ovh.net/api/artisan
+https://vps356969.ovh.net/api/client
 METHOD : GET
 ``` 
 #### Retour de server
@@ -510,7 +575,7 @@ METHOD : GET
 ``` head
 code request server : 200
 ```
-### Un client spécifique
+### Récupère un client spécifique
 {variable} : c'est une variable
 Il faut appelée URL avec méthode **GET** avec paramètre **id_artisan**
 ``` url
@@ -518,7 +583,7 @@ https://vps356969.ovh.net/api/client/{id_client}
 METHODE : GET
 ``` 
 #### Retour server
-Exemple artisan existe pour cette requête " **id_cleint** : 1 " : 
+Exemple artisan existe pour cette requête " **id_client** : 1 " : 
 ``` url
 https://vps356969.ovh.net/api/client/1
 ```
@@ -549,7 +614,7 @@ METHODE : POST
 | prenom      | Prenom de client       |
 | nom   | Nom de client        |
 | email   | Email client        |
-| password   | mote de pass de client        |
+| password   | mote de pass de client |
 
 C'est paramètre en haut c'est obligatoire.
 **En future il faut ajouté anti-robots (captcha)**
@@ -596,6 +661,276 @@ L'artisan est bien ajouté a la base de donnée :
    "created_at": "2023-05-19T21:29:24.000000Z",
    "updated_at": "2023-05-19T21:29:24.000000Z"
 
+}
+```
+``` code
+code request server : 201
+```
+
+### Connexion client
+Il faut appelée URL avec méthode **POST**.
+
+```url
+https://vps356969.ovh.net/api/client/login
+METHOD : POST
+```
+avec paramètres **Obligatoir** : 
+|Parametres      | Description |
+| ----------- | ----------- |
+| email     | Email de l'artisan
+| password| mote de passe de l'artisan
+
+#### Retour de serveur
+Une erreur sur les parametre : 
+```json
+{
+	"email":  [
+		"The email field is required."
+	],
+	"password":  [
+		"The password field is required."
+	]
+}
+```
+```code
+code request server : 500
+```
+erreur de connecté :
+
+```json
+{
+	"message":  "Email ou mot de passe incorrect"
+}
+```
+```code
+code request server : 500
+```
+
+L'artisan est bien connecté : 
+remarque ce token c'est un sécurité il faut sauvegarde dan le téléphone utilisateur(artisan/client)
+```json
+{
+	"token":  "3|rjMH1ldgAZjC6yuiRqkSyaVaTJB2taE7iv7SN4VE"
+}
+```
+```code
+code request server : 200
+```
+
+### Desconnexion client
+Il faut appelée URL avec méthode **POST**.
+
+```url
+https://vps356969.ovh.net/api/client/logout
+METHOD : POST
+```
+avec paramètres **Obligatoir** : 
+|Parametres      | Description |
+| ----------- | ----------- |
+| Authorization     | Token generé par le serveur |
+
+#### Retour de serveur
+
+Erreur de authentification (Vous avez oublié d'envoyé le token): 
+ ```json
+ {
+	"message":  "Unauthenticated"
+}
+ ```
+ ```code
+code request server : 401
+```
+
+Le client est bien déconnecte : 
+ ```json
+ {
+	"message":  "Vous etes bien deconnecte"
+}
+ ```
+ ```code
+code request server : 201
+```
+
+### Modifié des donnée d'un client
+
+Il faut appelée URL avec méthode **PUT** avec paramètres
+```url
+https://vps356969.ovh.net/api/client/update
+METHOD : PUT
+```
+Paramètres **Obligatoir**.
+|Parametres      | Description |
+| ----------- | ----------- |
+| Authorization     | Token generé par le serveur
+
+Paramètres **facultative** mai il faut ou mois un paramètre.
+
+|Parametres      | Description |
+| ----------- | ----------- |
+| prenom      | Prenom de l'artisan       |
+| nom   | Nom de l'artisan        |
+| email   | Email artisan        |
+| password   | mote de pass de l'artisan        |
+
+#### Retour de server
+Erreur de authentification (Vous avez oublié d'envoyé le token): 
+ ```json
+ {
+	"message":  "Unauthenticated"
+}
+ ```
+ ```code
+code request server : 401
+```
+ La modification est bien fait : 
+  ```json
+{
+   "id": 1,
+   "email": "mouhoub-1@gmail.com",
+   "prenom": "mouhoub-1",
+   "nom": "mardas-1",
+   "photo": "user.png",
+   "created_at": "2023-05-19T21:29:24.000000Z",
+   "updated_at": "2023-05-19T21:29:24.000000Z"
+}
+ ```
+ ```code
+code request server : 201
+```
+
+### Supprimer un client.
+Il faut appelée URL avec méthode **DELETE** avec paramètres
+```URL
+https://vps356969.ovh.net/api/client/delete
+METHOD : DELETE
+```
+
+#### retour de serveur
+Erreur de token : 
+```json
+{
+	"message":  "Unauthenticated"
+}
+```
+``` code
+code request server : 500
+```
+Le artisan est bien supprimer de la base de donnée 
+```json
+{
+	"id":  "1",
+	"message": "Client est bien supprimer"
+}
+```
+``` code
+code request server : 201
+```
+
+## Avis
+### Récupération les avis de client
+Il faut appelée URL avec méthode **GET** sans paramètre
+``` url
+https://vps356969.ovh.net/api/avis/client/{id_client}
+METHOD : GET
+``` 
+### Récupération les avis de l'artisan
+Il faut appelée URL avec méthode **GET** sans paramètre
+``` url
+https://vps356969.ovh.net/api/avis/artisan/{id_client}
+METHOD : GET
+``` 
+
+### Récupération les avis de client pour un artisan
+Il faut appelée URL avec méthode **GET** sans paramètre
+``` url
+https://vps356969.ovh.net/api/avis/{id_artisan}/{id_client}
+METHOD : GET
+```
+### Ajoute un avis
+Il faut appelée URL avec méthode **POST** avec paramètre
+``` url
+https://vps356969.ovh.net/api/avis/post
+METHOD : POST
+```
+|Parametres      | Description |
+| ----------- | ----------- |
+| Authorization     | Token generé par le serveur |
+|id_artisan|identifiant de l'artisan|
+|text|le text de client (avis)|
+|note|La note donnée par client **(integer)**|
+
+### Modifier un avis
+Il faut appelée URL avec méthode **POST** avec paramètre
+``` url
+https://vps356969.ovh.net/api/avis/post
+METHOD : POST
+```
+|Parametres      | Description |
+| ----------- | ----------- |
+| Authorization     | Token generé par le serveur |
+|text|le text de client (avis)|
+|note|La note donnée par client **(integer)**|
+
+#### Retoure server
+Erreur token 
+```json
+{
+	"message":  "Unauthenticated"
+}
+```
+``` code
+code request server : 500
+```
+Erreur avis n'exist pas
+```json
+{
+	"message":"L'avis n'ai pas trouvee"
+}
+```
+``` code
+code request server : 404
+```
+Erreur client n'a pas autorisation modifier un avis d'un autre client
+```json
+{
+	"message":"Vous n'avais pas authorisation de modifier l'avis"
+}
+```
+``` code
+code request server : 401
+```
+Avis est bien modifier
+```json
+{
+	"id":  5,
+	"id_client":  8,
+	"id_artisan":  2,
+	"text":  "ce message est modifier 2",
+	"note":  4,
+	"created_at":  "2023-05-20T16:41:28.000000Z",
+	"updated_at":  "2023-05-20T17:04:52.000000Z"
+}
+```
+``` code
+code request server : 201
+```
+
+### Suppermie un avis
+Il faut appelée URL avec méthode **DELETE** avec paramètre
+``` url
+https://vps356969.ovh.net/api/avis/delete/{id}
+METHOD : DELETE
+```
+|Parametres      | Description |
+| ----------- | ----------- |
+| Authorization     | Token generé par le serveur |
+
+#### Retoure server
+Avis est bien supprimer
+```json
+{
+	"id":1,
+	"message":"Vous avez pas les autorisation de supprimer"
 }
 ```
 ``` code
