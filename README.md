@@ -929,7 +929,7 @@ Avis est bien supprimer
 ```json
 {
 	"id":1,
-	"message":"Vous avez pas les autorisation de supprimer"
+	"message":"Avis est bien supprimer"
 }
 ```
 ``` code
