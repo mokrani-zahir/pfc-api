@@ -1,7 +1,6 @@
 # Documentation.
 C'est une API pour application ILORIA.
-[1 . Artisan](##Récupérations-La-list-artisan)
-[1 . 1 . Recuperation tous les artisan](###Tous-les-artisans)
+
 
 ## Artisan
 Récupération, l'ajoute, connexion, déconnection et modification tous les artisans dan la base de donnée.
